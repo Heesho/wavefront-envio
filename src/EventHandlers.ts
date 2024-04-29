@@ -459,6 +459,7 @@ const INITIAL_EVENTS_SUMMARY: EventsSummaryEntity = {
 });
     WavefrontFactoryContract.WaveFrontFactory__MemeCreated.loader(({ event, context }) => {
   context.EventsSummary.load(GLOBAL_EVENTS_SUMMARY_KEY);
+  context.contractRegistration.addMeme(event.params.meme);
 });
 
     WavefrontFactoryContract.WaveFrontFactory__MemeCreated.handler(({ event, context }) => {
