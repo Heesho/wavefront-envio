@@ -1,0 +1,178 @@
+type EventsSummary {
+  id: ID!
+  meme_Approval: [Meme_Approval!]! @derivedFrom(field: "eventsSummary")
+  meme_ApprovalCount: BigInt!
+  meme_Meme__Borrow: [Meme_Meme__Borrow!]! @derivedFrom(field: "eventsSummary")
+  meme_Meme__BorrowCount: BigInt!
+  meme_Meme__Burn: [Meme_Meme__Burn!]! @derivedFrom(field: "eventsSummary")
+  meme_Meme__BurnCount: BigInt!
+  meme_Meme__Buy: [Meme_Meme__Buy!]! @derivedFrom(field: "eventsSummary")
+  meme_Meme__BuyCount: BigInt!
+  meme_Meme__Claim: [Meme_Meme__Claim!]! @derivedFrom(field: "eventsSummary")
+  meme_Meme__ClaimCount: BigInt!
+  meme_Meme__Donation: [Meme_Meme__Donation!]! @derivedFrom(field: "eventsSummary")
+  meme_Meme__DonationCount: BigInt!
+  meme_Meme__Fees: [Meme_Meme__Fees!]! @derivedFrom(field: "eventsSummary")
+  meme_Meme__FeesCount: BigInt!
+  meme_Meme__ProtocolFee: [Meme_Meme__ProtocolFee!]! @derivedFrom(field: "eventsSummary")
+  meme_Meme__ProtocolFeeCount: BigInt!
+  meme_Meme__ProviderFee: [Meme_Meme__ProviderFee!]! @derivedFrom(field: "eventsSummary")
+  meme_Meme__ProviderFeeCount: BigInt!
+  meme_Meme__Repay: [Meme_Meme__Repay!]! @derivedFrom(field: "eventsSummary")
+  meme_Meme__RepayCount: BigInt!
+  meme_Meme__ReserveBurn: [Meme_Meme__ReserveBurn!]! @derivedFrom(field: "eventsSummary")
+  meme_Meme__ReserveBurnCount: BigInt!
+  meme_Meme__Sell: [Meme_Meme__Sell!]! @derivedFrom(field: "eventsSummary")
+  meme_Meme__SellCount: BigInt!
+  meme_Meme__StatusFee: [Meme_Meme__StatusFee!]! @derivedFrom(field: "eventsSummary")
+  meme_Meme__StatusFeeCount: BigInt!
+  meme_Meme__StatusUpdated: [Meme_Meme__StatusUpdated!]! @derivedFrom(field: "eventsSummary")
+  meme_Meme__StatusUpdatedCount: BigInt!
+  meme_Transfer: [Meme_Transfer!]! @derivedFrom(field: "eventsSummary")
+  meme_TransferCount: BigInt!
+  wavefrontFactory_OwnershipTransferred: [WavefrontFactory_OwnershipTransferred!]! @derivedFrom(field: "eventsSummary")
+  wavefrontFactory_OwnershipTransferredCount: BigInt!
+  wavefrontFactory_WaveFrontFactory__MemeCreated: [WavefrontFactory_WaveFrontFactory__MemeCreated!]! @derivedFrom(field: "eventsSummary")
+  wavefrontFactory_WaveFrontFactory__MemeCreatedCount: BigInt!
+  wavefrontFactory_WaveFrontFactory__MinAmountInUpdated: [WavefrontFactory_WaveFrontFactory__MinAmountInUpdated!]! @derivedFrom(field: "eventsSummary")
+  wavefrontFactory_WaveFrontFactory__MinAmountInUpdatedCount: BigInt!
+  wavefrontFactory_WaveFrontFactory__TreasuryUpdated: [WavefrontFactory_WaveFrontFactory__TreasuryUpdated!]! @derivedFrom(field: "eventsSummary")
+  wavefrontFactory_WaveFrontFactory__TreasuryUpdatedCount: BigInt!
+}
+
+type Meme_Approval {
+  id: ID!
+  owner: String!
+  spender: String!
+  value: BigInt!
+  eventsSummary: String!
+}
+
+type Meme_Meme__Borrow {
+  id: ID!
+  account: String!
+  amountBase: BigInt!
+  eventsSummary: String!
+}
+
+type Meme_Meme__Burn {
+  id: ID!
+  account: String!
+  amountMeme: BigInt!
+  eventsSummary: String!
+}
+
+type Meme_Meme__Buy {
+  id: ID!
+  from: String!
+  to: String!
+  amountIn: BigInt!
+  amountOut: BigInt!
+  eventsSummary: String!
+}
+
+type Meme_Meme__Claim {
+  id: ID!
+  account: String!
+  amountBase: BigInt!
+  eventsSummary: String!
+}
+
+type Meme_Meme__Donation {
+  id: ID!
+  account: String!
+  amountBase: BigInt!
+  eventsSummary: String!
+}
+
+type Meme_Meme__Fees {
+  id: ID!
+  account: String!
+  amountBase: BigInt!
+  amountMeme: BigInt!
+  eventsSummary: String!
+}
+
+type Meme_Meme__ProtocolFee {
+  id: ID!
+  account: String!
+  amountBase: BigInt!
+  eventsSummary: String!
+}
+
+type Meme_Meme__ProviderFee {
+  id: ID!
+  account: String!
+  amountBase: BigInt!
+  eventsSummary: String!
+}
+
+type Meme_Meme__Repay {
+  id: ID!
+  account: String!
+  amountBase: BigInt!
+  eventsSummary: String!
+}
+
+type Meme_Meme__ReserveBurn {
+  id: ID!
+  amountMeme: BigInt!
+  eventsSummary: String!
+}
+
+type Meme_Meme__Sell {
+  id: ID!
+  from: String!
+  to: String!
+  amountIn: BigInt!
+  amountOut: BigInt!
+  eventsSummary: String!
+}
+
+type Meme_Meme__StatusFee {
+  id: ID!
+  account: String!
+  amountBase: BigInt!
+  eventsSummary: String!
+}
+
+type Meme_Meme__StatusUpdated {
+  id: ID!
+  account: String!
+  status: String!
+  eventsSummary: String!
+}
+
+type Meme_Transfer {
+  id: ID!
+  from: String!
+  to: String!
+  value: BigInt!
+  eventsSummary: String!
+}
+
+type WavefrontFactory_OwnershipTransferred {
+  id: ID!
+  previousOwner: String!
+  newOwner: String!
+  eventsSummary: String!
+}
+
+type WavefrontFactory_WaveFrontFactory__MemeCreated {
+  id: ID!
+  index: BigInt!
+  meme: String!
+  eventsSummary: String!
+}
+
+type WavefrontFactory_WaveFrontFactory__MinAmountInUpdated {
+  id: ID!
+  minAmountIn: BigInt!
+  eventsSummary: String!
+}
+
+type WavefrontFactory_WaveFrontFactory__TreasuryUpdated {
+  id: ID!
+  treasury: String!
+  eventsSummary: String!
+}

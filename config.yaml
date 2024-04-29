@@ -1,0 +1,34 @@
+name: wavefront
+networks:
+- id: 84532
+  start_block: 0
+  contracts:
+  - name: WavefrontFactory
+    address:
+    - 0x1552b0DCAC344fFA9702Dbafa6EfA5ebEFB62A82
+    handler: src/EventHandlers.ts
+    events:
+    - event: OwnershipTransferred(address indexed previousOwner, address indexed newOwner)
+    - event: WaveFrontFactory__MemeCreated(uint256 index, address meme)
+    - event: WaveFrontFactory__MinAmountInUpdated(uint256 minAmountIn)
+    - event: WaveFrontFactory__TreasuryUpdated(address treasury)
+  - name: Meme
+    address:
+    - 0x7bad0137f9076c6C0C0BAAF6776F57417af53A0a
+    handler: src/EventHandlers.ts
+    events:
+    - event: Approval(address indexed owner, address indexed spender, uint256 value)
+    - event: Meme__Borrow(address indexed account, uint256 amountBase)
+    - event: Meme__Burn(address indexed account, uint256 amountMeme)
+    - event: Meme__Buy(address indexed from, address indexed to, uint256 amountIn, uint256 amountOut)
+    - event: Meme__Claim(address indexed account, uint256 amountBase)
+    - event: Meme__Donation(address indexed account, uint256 amountBase)
+    - event: Meme__Fees(address indexed account, uint256 amountBase, uint256 amountMeme)
+    - event: Meme__ProtocolFee(address indexed account, uint256 amountBase)
+    - event: Meme__ProviderFee(address indexed account, uint256 amountBase)
+    - event: Meme__Repay(address indexed account, uint256 amountBase)
+    - event: Meme__ReserveBurn(uint256 amountMeme)
+    - event: Meme__Sell(address indexed from, address indexed to, uint256 amountIn, uint256 amountOut)
+    - event: Meme__StatusFee(address indexed account, uint256 amountBase)
+    - event: Meme__StatusUpdated(address indexed account, string status)
+    - event: Transfer(address indexed from, address indexed to, uint256 value)
