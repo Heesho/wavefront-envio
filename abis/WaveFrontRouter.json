@@ -154,6 +154,24 @@
         "internalType": "address",
         "name": "account",
         "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "symbol",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "uri",
+        "type": "string"
       }
     ],
     "name": "WaveFrontRouter__MemeCreated",
