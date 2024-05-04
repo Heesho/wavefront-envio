@@ -1,16 +1,8 @@
 [
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "_factory",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_base",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "_factory", "type": "address" },
+      { "internalType": "address", "name": "_base", "type": "address" }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
@@ -258,53 +250,26 @@
     "name": "WaveFrontRouter__StatusUpdated",
     "type": "event"
   },
-  {
-    "stateMutability": "payable",
-    "type": "fallback"
-  },
+  { "stateMutability": "payable", "type": "fallback" },
   {
     "inputs": [],
     "name": "STATUS_UPDATE_FEE",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "base",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "meme",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "affiliate",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "minAmountOut",
-        "type": "uint256"
-      },
+      { "internalType": "address", "name": "meme", "type": "address" },
+      { "internalType": "address", "name": "affiliate", "type": "address" },
+      { "internalType": "uint256", "name": "minAmountOut", "type": "uint256" },
       {
         "internalType": "uint256",
         "name": "expireTimestamp",
@@ -318,11 +283,7 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "address[]",
-        "name": "memes",
-        "type": "address[]"
-      }
+      { "internalType": "address[]", "name": "memes", "type": "address[]" }
     ],
     "name": "claimFees",
     "outputs": [],
@@ -331,11 +292,7 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "meme",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "meme", "type": "address" }
     ],
     "name": "contribute",
     "outputs": [],
@@ -344,53 +301,25 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "string",
-        "name": "name",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "symbol",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "uri",
-        "type": "string"
-      }
+      { "internalType": "string", "name": "name", "type": "string" },
+      { "internalType": "string", "name": "symbol", "type": "string" },
+      { "internalType": "string", "name": "uri", "type": "string" }
     ],
     "name": "createMeme",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "payable",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "factory",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "meme",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "meme", "type": "address" }
     ],
     "name": "redeem",
     "outputs": [],
@@ -398,41 +327,17 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "name": "referrals",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "meme",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amountIn",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "minAmountOut",
-        "type": "uint256"
-      },
+      { "internalType": "address", "name": "meme", "type": "address" },
+      { "internalType": "uint256", "name": "amountIn", "type": "uint256" },
+      { "internalType": "uint256", "name": "minAmountOut", "type": "uint256" },
       {
         "internalType": "uint256",
         "name": "expireTimestamp",
@@ -446,24 +351,13 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "meme",
-        "type": "address"
-      },
-      {
-        "internalType": "string",
-        "name": "status",
-        "type": "string"
-      }
+      { "internalType": "address", "name": "meme", "type": "address" },
+      { "internalType": "string", "name": "status", "type": "string" }
     ],
     "name": "updateStatus",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
-  {
-    "stateMutability": "payable",
-    "type": "receive"
-  }
+  { "stateMutability": "payable", "type": "receive" }
 ]

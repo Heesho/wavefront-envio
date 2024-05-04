@@ -1,74 +1,152 @@
-type Directory {
+type EventsSummary {
   id: ID!
-  index: BigInt!
-  volume: BigInt!
-  fees: BigInt!
+  meme_Meme__Buy: [Meme_Meme__Buy!]! @derivedFrom(field: "eventsSummary")
+  meme_Meme__BuyCount: BigInt!
+  meme_Meme__Claim: [Meme_Meme__Claim!]! @derivedFrom(field: "eventsSummary")
+  meme_Meme__ClaimCount: BigInt!
+  meme_Meme__MarketOpened: [Meme_Meme__MarketOpened!]! @derivedFrom(field: "eventsSummary")
+  meme_Meme__MarketOpenedCount: BigInt!
+  meme_Meme__ProtocolFee: [Meme_Meme__ProtocolFee!]! @derivedFrom(field: "eventsSummary")
+  meme_Meme__ProtocolFeeCount: BigInt!
+  meme_Meme__ProviderFee: [Meme_Meme__ProviderFee!]! @derivedFrom(field: "eventsSummary")
+  meme_Meme__ProviderFeeCount: BigInt!
+  meme_Meme__Sell: [Meme_Meme__Sell!]! @derivedFrom(field: "eventsSummary")
+  meme_Meme__SellCount: BigInt!
+  meme_Meme__StatusFee: [Meme_Meme__StatusFee!]! @derivedFrom(field: "eventsSummary")
+  meme_Meme__StatusFeeCount: BigInt!
+  meme_Meme__StatusUpdated: [Meme_Meme__StatusUpdated!]! @derivedFrom(field: "eventsSummary")
+  meme_Meme__StatusUpdatedCount: BigInt!
+  meme_Transfer: [Meme_Transfer!]! @derivedFrom(field: "eventsSummary")
+  meme_TransferCount: BigInt!
+  preMeme_PreMeme__Contributed: [PreMeme_PreMeme__Contributed!]! @derivedFrom(field: "eventsSummary")
+  preMeme_PreMeme__ContributedCount: BigInt!
+  preMeme_PreMeme__Redeemed: [PreMeme_PreMeme__Redeemed!]! @derivedFrom(field: "eventsSummary")
+  preMeme_PreMeme__RedeemedCount: BigInt!
+  waveFrontFactory_WaveFrontFactory__MemeCreated: [WaveFrontFactory_WaveFrontFactory__MemeCreated!]! @derivedFrom(field: "eventsSummary")
+  waveFrontFactory_WaveFrontFactory__MemeCreatedCount: BigInt!
+  waveFrontRouter_WaveFrontRouter__AffiliateSet: [WaveFrontRouter_WaveFrontRouter__AffiliateSet!]! @derivedFrom(field: "eventsSummary")
+  waveFrontRouter_WaveFrontRouter__AffiliateSetCount: BigInt!
+  waveFrontRouter_WaveFrontRouter__Buy: [WaveFrontRouter_WaveFrontRouter__Buy!]! @derivedFrom(field: "eventsSummary")
+  waveFrontRouter_WaveFrontRouter__BuyCount: BigInt!
+  waveFrontRouter_WaveFrontRouter__Sell: [WaveFrontRouter_WaveFrontRouter__Sell!]! @derivedFrom(field: "eventsSummary")
+  waveFrontRouter_WaveFrontRouter__SellCount: BigInt!
 }
 
-type Account {
+type Meme_Meme__Buy {
   id: ID!
-  providerFees: BigInt!
-  collectionFees: BigInt!
-  leaderFees: BigInt!
-  rederrals: BigInt!
-  tokenPositions: [TokenPosition!]! @derivedFrom(field: "account")
+  from: String!
+  to: String!
+  amountIn: BigInt!
+  amountOut: BigInt!
+  eventsSummary: String!
 }
 
-type Token {
+type Meme_Meme__Claim {
   id: ID!
+  account: String!
+  amountBase: BigInt!
+  eventsSummary: String!
+}
+
+type Meme_Meme__MarketOpened {
+  id: ID!
+  eventsSummary: String!
+}
+
+type Meme_Meme__ProtocolFee {
+  id: ID!
+  account: String!
+  amountBase: BigInt!
+  eventsSummary: String!
+}
+
+type Meme_Meme__ProviderFee {
+  id: ID!
+  account: String!
+  amountBase: BigInt!
+  eventsSummary: String!
+}
+
+type Meme_Meme__Sell {
+  id: ID!
+  from: String!
+  to: String!
+  amountIn: BigInt!
+  amountOut: BigInt!
+  eventsSummary: String!
+}
+
+type Meme_Meme__StatusFee {
+  id: ID!
+  account: String!
+  amountBase: BigInt!
+  eventsSummary: String!
+}
+
+type Meme_Meme__StatusUpdated {
+  id: ID!
+  account: String!
+  status: String!
+  eventsSummary: String!
+}
+
+type Meme_Transfer {
+  id: ID!
+  from: String!
+  to: String!
+  value: BigInt!
+  eventsSummary: String!
+}
+
+type PreMeme_PreMeme__Contributed {
+  id: ID!
+  meme: String!
+  account: String!
+  amount: BigInt!
+  eventsSummary: String!
+}
+
+type PreMeme_PreMeme__Redeemed {
+  id: ID!
+  meme: String!
+  account: String!
+  amount: BigInt!
+  eventsSummary: String!
+}
+
+type WaveFrontFactory_WaveFrontFactory__MemeCreated {
+  id: ID!
+  meme: String!
+  preMeme: String!
   name: String!
   symbol: String!
   uri: String!
-  creator: String!
-  leader: String!
-  contributed: BigInt!
-  marketPrice: BigInt!
-  supply: BigInt!
-  marketCap: BigInt!
-  volume: BigInt!
-  holders: BigInt!
-  tokenPositions: [TokenPosition!]! @derivedFrom(field: "token")
+  account: String!
+  eventsSummary: String!
 }
 
-type TokenPosition {
+type WaveFrontRouter_WaveFrontRouter__AffiliateSet {
   id: ID!
-  token: Token!
-  account: Account!
-  contributed: BigInt!
-  balance: BigInt!
-  leader: Boolean!
-  creator: Boolean!
+  account: String!
+  affiliate: String!
+  eventsSummary: String!
 }
 
-type TokenHourData {
+type WaveFrontRouter_WaveFrontRouter__Buy {
   id: ID!
-  timestamp: BigInt!
-  token: Token!
-  marketPrice: BigInt!
-  hourlyVolume: BigInt!
+  meme: String!
+  account: String!
+  affiliate: String!
+  amountIn: BigInt!
+  amountOut: BigInt!
+  eventsSummary: String!
 }
 
-type TokenDayData {
+type WaveFrontRouter_WaveFrontRouter__Sell {
   id: ID!
-  timestamp: BigInt!
-  token: Token!
-  marketPrice: BigInt!
-  dailyVolume: BigInt!
-}
-
-type Swap {
-  id: ID!
-  blockNumber: BigInt!
-  timestamp: BigInt!
-  token: Token!
-  from: String!
-  to: String!
-  provider: String!
-  buy: Boolean!
-  sell: Boolean!
-  tokenIn: BigInt!
-  tokenOut: BigInt!
-  baseIn: BigInt!
-  baseOut: BigInt!
-  marketPrice: BigInt!
+  meme: String!
+  account: String!
+  amountIn: BigInt!
+  amountOut: BigInt!
+  eventsSummary: String!
 }

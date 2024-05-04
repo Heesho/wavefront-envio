@@ -1,43 +1,40 @@
 name: wavefront
 networks:
-  - id: 84532
-    start_block: 0
-    contracts:
-      - name: WaveFrontFactory
-        address:
-          - 0x5e608DfC40ACcBC1B830daA9350398e8017A2E0D
-        handler: src/EventHandlers.ts
-        events:
-          - event: WaveFrontFactory__MemeCreated(uint256 index, address meme)
-      - name: WaveFrontRouter
-        address:
-          - 0x2363BB86cD2ABF89cc059A654f89f11bCceffcA9
-        handler: src/EventHandlers.ts
-        events:
-          - event: WaveFrontRouter__AffiliateSet(address indexed account, address indexed affiliate)
-          - event: WaveFrontRouter__Buy(address indexed meme, address indexed account, address indexed affiliate, uint256 amountIn, uint256 amountOut)
-          - event: WaveFrontRouter__ClaimFees(address indexed meme, address indexed account)
-          - event: WaveFrontRouter__Contributed(address indexed meme, address indexed account, uint256 amount)
-          - event: WaveFrontRouter__MarketOpened(address indexed meme, uint256 totalBaseContributed, uint256 totalMemeBalance)
-          - event: WaveFrontRouter__MemeCreated(address indexed meme, address indexed account, string name, string symbol, string uri)
-          - event: WaveFrontRouter__Redeemed(address indexed meme, address indexed account, uint256 amount)
-          - event: WaveFrontRouter__Sell(address indexed meme, address indexed account, uint256 amountIn, uint256 amountOut)
-          - event: WaveFrontRouter__StatusUpdated(address indexed meme, address indexed account, string status)
-      - name: Meme
-        address:
-        handler: src/EventHandlers.ts
-        events:
-          - event: Meme__Borrow(address indexed account, uint256 amountBase)
-          - event: Meme__Burn(address indexed account, uint256 amountMeme)
-          - event: Meme__Buy(address indexed from, address indexed to, uint256 amountIn, uint256 amountOut)
-          - event: Meme__Claim(address indexed account, uint256 amountBase)
-          - event: Meme__Donation(address indexed account, uint256 amountBase)
-          - event: Meme__Fees(address indexed account, uint256 amountBase, uint256 amountMeme)
-          - event: Meme__ProtocolFee(address indexed account, uint256 amountBase)
-          - event: Meme__ProviderFee(address indexed account, uint256 amountBase)
-          - event: Meme__Repay(address indexed account, uint256 amountBase)
-          - event: Meme__ReserveBurn(uint256 amountMeme)
-          - event: Meme__Sell(address indexed from, address indexed to, uint256 amountIn, uint256 amountOut)
-          - event: Meme__StatusFee(address indexed account, uint256 amountBase)
-          - event: Meme__StatusUpdated(address indexed account, string status)
-          - event: Transfer(address indexed from, address indexed to, uint256 value)
+- id: 84532
+  start_block: 0
+  contracts:
+  - name: WaveFrontFactory
+    address:
+    - 0x218c66c9092DC6025343e3d36B3Cc38ae49a3577
+    handler: src/EventHandlers.ts
+    events:
+    - event: WaveFrontFactory__MemeCreated(address meme, address preMeme, string name, string symbol, string uri, address account)
+  - name: WaveFrontRouter
+    address:
+    - 0x52a7648f60f672B93921504b0A90e3F6Cf8d3EC7
+    handler: src/EventHandlers.ts
+    events:
+    - event: WaveFrontRouter__AffiliateSet(address indexed account, address indexed affiliate)
+    - event: WaveFrontRouter__Buy(address indexed meme, address indexed account, address indexed affiliate, uint256 amountIn, uint256 amountOut)
+    - event: WaveFrontRouter__Sell(address indexed meme, address indexed account, uint256 amountIn, uint256 amountOut)
+  - name: Meme
+    address:
+    - 0xb863a10D5877A524e57DD48E75B81b07C091991b
+    handler: src/EventHandlers.ts
+    events:
+    - event: Meme__Buy(address indexed from, address indexed to, uint256 amountIn, uint256 amountOut)
+    - event: Meme__Claim(address indexed account, uint256 amountBase)
+    - event: Meme__MarketOpened()
+    - event: Meme__ProtocolFee(address indexed account, uint256 amountBase)
+    - event: Meme__ProviderFee(address indexed account, uint256 amountBase)
+    - event: Meme__Sell(address indexed from, address indexed to, uint256 amountIn, uint256 amountOut)
+    - event: Meme__StatusFee(address indexed account, uint256 amountBase)
+    - event: Meme__StatusUpdated(address indexed account, string status)
+    - event: Transfer(address indexed from, address indexed to, uint256 value)
+  - name: PreMeme
+    address:
+    - 0x8D2a58A0367556620245004EcA8b6f653e6d4A4B
+    handler: src/EventHandlers.ts
+    events:
+    - event: PreMeme__Contributed(address indexed meme, address indexed account, uint256 amount)
+    - event: PreMeme__Redeemed(address indexed meme, address indexed account, uint256 amount)
