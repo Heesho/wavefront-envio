@@ -15,18 +15,43 @@ import {
   // SwapDayData,
 } from "generated";
 import {
+  MemeContract_Meme__Buy_handler,
+  MemeContract_Meme__Buy_loader,
+  MemeContract_Meme__Claim_handler,
+  MemeContract_Meme__Claim_loader,
+  MemeContract_Meme__MarketOpened_handler,
+  MemeContract_Meme__MarketOpened_loader,
+  MemeContract_Meme__ProtocolFee_handler,
+  MemeContract_Meme__ProtocolFee_loader,
+  MemeContract_Meme__ProviderFee_handler,
+  MemeContract_Meme__ProviderFee_loader,
+  MemeContract_Meme__Sell_handler,
+  MemeContract_Meme__Sell_loader,
+  MemeContract_Meme__StatusFee_handler,
+  MemeContract_Meme__StatusFee_loader,
+  MemeContract_Meme__StatusUpdated_handler,
+  MemeContract_Meme__StatusUpdated_loader,
+  MemeContract_Transfer_handler,
+  MemeContract_Transfer_loader,
   PreMemeContract_PreMeme__Contributed_handler,
   PreMemeContract_PreMeme__Contributed_loader,
   PreMemeContract_PreMeme__Redeemed_handler,
   PreMemeContract_PreMeme__Redeemed_loader,
   WaveFrontFactoryContract_WaveFrontFactory__MemeCreated_handler,
   WaveFrontFactoryContract_WaveFrontFactory__MemeCreated_loader,
+  WaveFrontRouterContract_WaveFrontRouter__AffiliateSet_handler,
+  WaveFrontRouterContract_WaveFrontRouter__AffiliateSet_loader,
+  WaveFrontRouterContract_WaveFrontRouter__Buy_handler,
+  WaveFrontRouterContract_WaveFrontRouter__Buy_loader,
+  WaveFrontRouterContract_WaveFrontRouter__Sell_handler,
+  WaveFrontRouterContract_WaveFrontRouter__Sell_loader,
 } from "generated/src/Handlers.gen";
 
 const ADDRESS_ZERO = "0x0000000000000000000000000000000000000000";
 const FACTORY_ADDRESS = "0x25a12591e63a4367e5fB3Af66cc4CDDB7F02aDec";
 const INITIAL_PRICE = 100000000000n;
 const PREMARKET_DURATION = 600n;
+const STATUS_UPDATE_FEE = 1000000000000000000000n;
 
 WaveFrontFactoryContract_WaveFrontFactory__MemeCreated_loader(
   ({ event, context }) => {
@@ -190,3 +215,184 @@ PreMemeContract_PreMeme__Redeemed_handler(({ event, context }) => {
   };
   context.TokenPosition.set(existingTokenPosition);
 });
+
+MemeContract_Meme__Buy_loader(({ event, context }) => {
+  context.Directory.load(FACTORY_ADDRESS);
+  context.Token.load(event.srcAddress);
+});
+
+MemeContract_Meme__Buy_handler(({ event, context }) => {
+  let directory = context.Directory.get(FACTORY_ADDRESS)!;
+  const existingDirectory: DirectoryEntity = {
+    ...directory,
+    volume: directory.volume + event.params.amountIn,
+  };
+  context.Directory.set(existingDirectory);
+
+  let token = context.Token.get(event.srcAddress)!;
+  const existingToken: TokenEntity = {
+    ...token,
+    marketPrice: event.params.amountIn / event.params.amountOut,
+    priceChange: "UP",
+    circulatingSupply: token.circulatingSupply + event.params.amountOut,
+    marketCap:
+      (event.params.amountIn / event.params.amountOut) *
+      (token.circulatingSupply + event.params.amountOut),
+    volume: token.volume + event.params.amountIn,
+  };
+  context.Token.set(existingToken);
+});
+
+MemeContract_Meme__Sell_loader(({ event, context }) => {
+  context.Directory.load(FACTORY_ADDRESS);
+  context.Token.load(event.srcAddress);
+});
+
+MemeContract_Meme__Sell_handler(({ event, context }) => {
+  let directory = context.Directory.get(FACTORY_ADDRESS)!;
+  const existingDirectory: DirectoryEntity = {
+    ...directory,
+    volume: directory.volume + event.params.amountOut,
+  };
+  context.Directory.set(existingDirectory);
+
+  let token = context.Token.get(event.srcAddress)!;
+  const existingToken: TokenEntity = {
+    ...token,
+    marketPrice: event.params.amountOut / event.params.amountIn,
+    priceChange: "DOWN",
+    circulatingSupply: token.circulatingSupply - event.params.amountOut,
+    marketCap:
+      (event.params.amountOut / event.params.amountIn) *
+      (token.circulatingSupply - event.params.amountOut),
+    volume: token.volume + event.params.amountIn,
+  };
+  context.Token.set(existingToken);
+});
+
+MemeContract_Meme__Claim_loader(({ event, context }) => {
+  context.Account.load(event.params.account);
+});
+
+MemeContract_Meme__Claim_handler(({ event, context }) => {
+  let account = context.Account.get(event.params.account)!;
+  const existingAccount: AccountEntity = {
+    ...account,
+    collectionFees: account.collectionFees + event.params.amountBase,
+  };
+  context.Account.set(existingAccount);
+});
+
+MemeContract_Meme__StatusFee_loader(({ event, context }) => {
+  context.Account.load(event.params.account);
+});
+
+MemeContract_Meme__StatusFee_handler(({ event, context }) => {
+  let account = context.Account.get(event.params.account)!;
+  const existingAccount: AccountEntity = {
+    ...account,
+    leaderFees: account.leaderFees + event.params.amountBase,
+  };
+  context.Account.set(existingAccount);
+});
+
+MemeContract_Meme__ProviderFee_loader(({ event, context }) => {
+  context.Account.load(event.params.account);
+});
+
+MemeContract_Meme__ProviderFee_handler(({ event, context }) => {
+  let account = context.Account.get(event.params.account)!;
+  const existingAccount: AccountEntity = {
+    ...account,
+    providerFees: account.providerFees + event.params.amountBase,
+  };
+  context.Account.set(existingAccount);
+});
+
+MemeContract_Meme__ProtocolFee_loader(({ event, context }) => {
+  context.Directory.load(FACTORY_ADDRESS);
+});
+
+MemeContract_Meme__ProtocolFee_handler(({ event, context }) => {
+  let directory = context.Directory.get(FACTORY_ADDRESS)!;
+  const existingDirectory: DirectoryEntity = {
+    ...directory,
+    treasuryFees: directory.treasuryFees + event.params.amountBase,
+  };
+  context.Directory.set(existingDirectory);
+});
+
+MemeContract_Meme__StatusUpdated_loader(({ event, context }) => {
+  context.Token.load(event.srcAddress);
+  context.TokenPosition.load(
+    event.srcAddress.toString() + "-" + event.params.account.toString(),
+    {}
+  );
+});
+
+MemeContract_Meme__StatusUpdated_handler(({ event, context }) => {
+  let token = context.Token.get(event.srcAddress)!;
+
+  let oldLeaderTokenPosition = context.TokenPosition.get(
+    event.srcAddress.toString() + "-" + token.leader.toString()
+  )!;
+  const existingOldLeaderTokenPosition: TokenPositionEntity = {
+    ...oldLeaderTokenPosition,
+    leader: false,
+  };
+  context.TokenPosition.set(existingOldLeaderTokenPosition);
+
+  let newLeaderTokenPosition = context.TokenPosition.get(
+    event.srcAddress.toString() + "-" + event.params.account.toString()
+  )!;
+  const existingNewLeaderTokenPosition: TokenPositionEntity = {
+    ...newLeaderTokenPosition,
+    leader: true,
+  };
+  context.TokenPosition.set(existingNewLeaderTokenPosition);
+
+  const existingToken: TokenEntity = {
+    ...token,
+    leader: event.params.account,
+    circulatingSupply: token.circulatingSupply - STATUS_UPDATE_FEE,
+  };
+});
+
+MemeContract_Meme__MarketOpened_loader(({ event, context }) => {
+  context.Token.load(event.srcAddress);
+});
+
+MemeContract_Meme__MarketOpened_handler(({ event, context }) => {
+  let token = context.Token.get(event.srcAddress)!;
+  const existingToken: TokenEntity = {
+    ...token,
+    isOpen: true,
+  };
+  context.Token.set(existingToken);
+});
+
+MemeContract_Transfer_loader(({ event, context }) => {});
+
+MemeContract_Transfer_handler(({ event, context }) => {});
+
+WaveFrontRouterContract_WaveFrontRouter__AffiliateSet_loader(
+  ({ event, context }) => {}
+);
+
+WaveFrontRouterContract_WaveFrontRouter__AffiliateSet_handler(
+  ({ event, context }) => {}
+);
+
+WaveFrontRouterContract_WaveFrontRouter__Buy_loader(({ event, context }) => {});
+
+WaveFrontRouterContract_WaveFrontRouter__Buy_handler(
+  ({ event, context }) => {}
+);
+
+WaveFrontRouterContract_WaveFrontRouter__Sell_loader(
+  ({ event, context }) => {}
+);
+
+WaveFrontRouterContract_WaveFrontRouter__Sell_handler(
+  ({ event, context }) => {}
+);
