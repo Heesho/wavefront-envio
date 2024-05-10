@@ -325,7 +325,11 @@ MemeContract_Meme__ProtocolFee_handler(({ event, context }) => {
 MemeContract_Meme__StatusUpdated_loader(({ event, context }) => {
   context.Token.load(event.srcAddress);
   context.TokenPosition.load(
-    event.srcAddress.toString() + "-" + event.params.account.toString(),
+    event.srcAddress.toString() + "-" + event.params.oldAccount.toString(),
+    {}
+  );
+  context.TokenPosition.load(
+    event.srcAddress.toString() + "-" + event.params.newAccount.toString(),
     {}
   );
 });
@@ -334,7 +338,7 @@ MemeContract_Meme__StatusUpdated_handler(({ event, context }) => {
   let token = context.Token.get(event.srcAddress)!;
 
   let oldLeaderTokenPosition = context.TokenPosition.get(
-    event.srcAddress.toString() + "-" + token.leader.toString()
+    event.srcAddress.toString() + "-" + event.params.oldAccount.toString()
   )!;
   const existingOldLeaderTokenPosition: TokenPositionEntity = {
     ...oldLeaderTokenPosition,
@@ -343,7 +347,7 @@ MemeContract_Meme__StatusUpdated_handler(({ event, context }) => {
   context.TokenPosition.set(existingOldLeaderTokenPosition);
 
   let newLeaderTokenPosition = context.TokenPosition.get(
-    event.srcAddress.toString() + "-" + event.params.account.toString()
+    event.srcAddress.toString() + "-" + event.params.newAccount.toString()
   )!;
   const existingNewLeaderTokenPosition: TokenPositionEntity = {
     ...newLeaderTokenPosition,
@@ -353,7 +357,7 @@ MemeContract_Meme__StatusUpdated_handler(({ event, context }) => {
 
   const existingToken: TokenEntity = {
     ...token,
-    leader: event.params.account,
+    leader: event.params.newAccount,
     circulatingSupply: token.circulatingSupply - STATUS_UPDATE_FEE,
   };
 });
