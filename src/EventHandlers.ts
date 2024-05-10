@@ -2,17 +2,17 @@
  *Please refer to https://docs.envio.dev for a thorough guide on all Envio indexer features*
  */
 import {
-  // MemeContract,
-  // PreMemeContract,
+  MemeContract,
+  PreMemeContract,
   WaveFrontFactoryContract,
   WaveFrontRouterContract,
   DirectoryEntity,
   AccountEntity,
   TokenEntity,
   TokenPositionEntity,
-  // Swap,
-  // SwapHourData,
-  // SwapDayData,
+  SwapEntity,
+  SwapHourDataEntity,
+  SwapDayDataEntity,
 } from "generated";
 import {
   MemeContract_Meme__Buy_handler,
@@ -375,28 +375,293 @@ MemeContract_Meme__MarketOpened_handler(({ event, context }) => {
   context.Token.set(existingToken);
 });
 
-MemeContract_Transfer_loader(({ event, context }) => {});
+MemeContract_Transfer_loader(({ event, context }) => {
+  context.Token.load(event.srcAddress);
+  context.Account.load(event.params.to);
+  context.Account.load(event.params.from);
+  context.TokenPosition.load(
+    event.srcAddress.toString() + "-" + event.params.to.toString(),
+    {}
+  );
+  context.TokenPosition.load(
+    event.srcAddress.toString() + "-" + event.params.from.toString(),
+    {}
+  );
+});
 
-MemeContract_Transfer_handler(({ event, context }) => {});
+MemeContract_Transfer_handler(({ event, context }) => {
+  let token = context.Token.get(event.srcAddress)!;
+
+  let toAccount = context.Account.get(event.params.to);
+  if (!toAccount) {
+    toAccount = {
+      id: event.params.to,
+      providerFees: 0n,
+      collectionFees: 0n,
+      leaderFees: 0n,
+      referrals: 0n,
+    };
+    context.Account.set(toAccount);
+  }
+
+  let toTokenPosition = context.TokenPosition.get(
+    event.srcAddress.toString() + "-" + event.params.to.toString()
+  );
+  if (!toTokenPosition) {
+    toTokenPosition = {
+      id: event.srcAddress.toString() + "-" + event.params.to.toString(),
+      account_id: event.params.to,
+      token_id: event.srcAddress,
+      contributed: 0n,
+      balance: 0n,
+      created: false,
+      leader: false,
+    };
+    context.TokenPosition.set(toTokenPosition);
+  }
+  if (toTokenPosition.balance == 0n) {
+    const existingToken: TokenEntity = {
+      ...token,
+      holders: token.holders + 1n,
+    };
+    context.Token.set(existingToken);
+  }
+  const existingToTokenPosition: TokenPositionEntity = {
+    ...toTokenPosition,
+    balance: toTokenPosition.balance + event.params.value,
+  };
+  context.TokenPosition.set(existingToTokenPosition);
+
+  let fromTokenPosition = context.TokenPosition.get(
+    event.srcAddress.toString() + "-" + event.params.from.toString()
+  );
+  if (!fromTokenPosition) {
+    fromTokenPosition = {
+      id: event.srcAddress.toString() + "-" + event.params.from.toString(),
+      account_id: event.params.from,
+      token_id: event.srcAddress,
+      contributed: 0n,
+      balance: 0n,
+      created: false,
+      leader: false,
+    };
+    context.TokenPosition.set(fromTokenPosition);
+  }
+  const existingFromTokenPosition: TokenPositionEntity = {
+    ...fromTokenPosition,
+    balance: fromTokenPosition.balance - event.params.value,
+  };
+  context.TokenPosition.set(existingFromTokenPosition);
+  if (fromTokenPosition.balance < 0n) {
+    const existingFromTokenPosition: TokenPositionEntity = {
+      ...fromTokenPosition,
+      balance: 0n,
+    };
+    context.TokenPosition.set(existingFromTokenPosition);
+  }
+  if (fromTokenPosition.balance == 0n) {
+    const existingToken: TokenEntity = {
+      ...token,
+      holders: token.holders - 1n,
+    };
+    context.Token.set(existingToken);
+  }
+});
 
 WaveFrontRouterContract_WaveFrontRouter__AffiliateSet_loader(
-  ({ event, context }) => {}
+  ({ event, context }) => {
+    context.Account.load(event.params.account);
+  }
 );
 
 WaveFrontRouterContract_WaveFrontRouter__AffiliateSet_handler(
-  ({ event, context }) => {}
+  ({ event, context }) => {
+    let account = context.Account.get(event.params.account)!;
+    if (!account) {
+      account = {
+        id: event.params.account,
+        providerFees: 0n,
+        collectionFees: 0n,
+        leaderFees: 0n,
+        referrals: 0n,
+      };
+      context.Account.set(account);
+    }
+    const existingAccount: AccountEntity = {
+      ...account,
+      referrals: account.referrals + 1n,
+    };
+    context.Account.set(existingAccount);
+  }
 );
 
-WaveFrontRouterContract_WaveFrontRouter__Buy_loader(({ event, context }) => {});
+WaveFrontRouterContract_WaveFrontRouter__Buy_loader(({ event, context }) => {
+  context.Account.load(event.params.account);
+  context.Swap.load(event.transactionHash, {});
+  let hourIndex = event.blockTimestamp / 3600;
+  let dayIndex = event.blockTimestamp / 86400;
+  context.SwapHourData.load(event.params.meme.toString() + "-" + hourIndex, {});
+  context.SwapDayData.load(event.params.meme.toString() + "-" + dayIndex, {});
+});
 
-WaveFrontRouterContract_WaveFrontRouter__Buy_handler(
-  ({ event, context }) => {}
-);
+WaveFrontRouterContract_WaveFrontRouter__Buy_handler(({ event, context }) => {
+  let account = context.Account.get(event.params.account);
+  if (!account) {
+    account = {
+      id: event.params.account,
+      providerFees: 0n,
+      collectionFees: 0n,
+      leaderFees: 0n,
+      referrals: 0n,
+    };
+    context.Account.set(account);
+  }
 
-WaveFrontRouterContract_WaveFrontRouter__Sell_loader(
-  ({ event, context }) => {}
-);
+  let swap = context.Swap.get(event.transactionHash);
+  if (!swap) {
+    swap = {
+      id: event.transactionHash,
+      blockNumber: event.blockNumber,
+      timestamp: event.blockTimestamp,
+      account_id: event.params.account,
+      token_id: event.params.meme,
+      action: "BUY",
+      baseIn: event.params.amountIn,
+      baseOut: 0n,
+      tokenIn: 0n,
+      tokenOut: event.params.amountOut,
+      marketPrice: event.params.marketPrice,
+      floorPrice: event.params.floorPrice,
+    };
+    context.Swap.set(swap);
+  }
 
-WaveFrontRouterContract_WaveFrontRouter__Sell_handler(
-  ({ event, context }) => {}
-);
+  let hourIndex = event.blockTimestamp / 3600;
+  let hourStartTimestamp = hourIndex * 3600;
+  let swapHourData = context.SwapHourData.get(
+    event.params.meme.toString() + "-" + hourIndex
+  );
+  if (!swapHourData) {
+    swapHourData = {
+      id: event.params.meme.toString() + "-" + hourIndex,
+      token_id: event.params.meme,
+      timestamp: hourStartTimestamp,
+      marketPrice: event.params.marketPrice,
+      floorPrice: event.params.floorPrice,
+      hourlyVolume: event.params.amountIn,
+    };
+    context.SwapHourData.set(swapHourData);
+  } else {
+    const existingSwapHourData: SwapHourDataEntity = {
+      ...swapHourData,
+      marketPrice: event.params.marketPrice,
+      floorPrice: event.params.floorPrice,
+      hourlyVolume: swapHourData.hourlyVolume + event.params.amountIn,
+    };
+    context.SwapHourData.set(existingSwapHourData);
+  }
+
+  let dayIndex = event.blockTimestamp / 86400;
+  let dayStartTimestamp = dayIndex * 86400;
+  let swapDayData = context.SwapDayData.get(
+    event.params.meme.toString() + "-" + dayIndex
+  );
+  if (!swapDayData) {
+    swapDayData = {
+      id: event.params.meme.toString() + "-" + dayIndex,
+      token_id: event.params.meme,
+      timestamp: dayStartTimestamp,
+      marketPrice: event.params.marketPrice,
+      floorPrice: event.params.floorPrice,
+      dailyVolume: event.params.amountIn,
+    };
+    context.SwapDayData.set(swapDayData);
+  } else {
+    const existingSwapDayData: SwapDayDataEntity = {
+      ...swapDayData,
+      marketPrice: event.params.marketPrice,
+      floorPrice: event.params.floorPrice,
+      dailyVolume: swapDayData.dailyVolume + event.params.amountIn,
+    };
+    context.SwapDayData.set(existingSwapDayData);
+  }
+});
+
+WaveFrontRouterContract_WaveFrontRouter__Sell_loader(({ event, context }) => {
+  context.Swap.load(event.transactionHash, {});
+  let hourIndex = event.blockTimestamp / 3600;
+  let dayIndex = event.blockTimestamp / 86400;
+  context.SwapHourData.load(event.params.meme.toString() + "-" + hourIndex, {});
+  context.SwapDayData.load(event.params.meme.toString() + "-" + dayIndex, {});
+});
+
+WaveFrontRouterContract_WaveFrontRouter__Sell_handler(({ event, context }) => {
+  let swap = context.Swap.get(event.transactionHash);
+  if (!swap) {
+    swap = {
+      id: event.transactionHash,
+      blockNumber: event.blockNumber,
+      timestamp: event.blockTimestamp,
+      account_id: event.params.account,
+      token_id: event.params.meme,
+      action: "SELL",
+      baseIn: 0n,
+      baseOut: event.params.amountOut,
+      tokenIn: event.params.amountIn,
+      tokenOut: 0n,
+      marketPrice: event.params.marketPrice,
+      floorPrice: event.params.floorPrice,
+    };
+    context.Swap.set(swap);
+  }
+
+  let hourIndex = event.blockTimestamp / 3600;
+  let hourStartTimestamp = hourIndex * 3600;
+  let swapHourData = context.SwapHourData.get(
+    event.params.meme.toString() + "-" + hourIndex
+  );
+  if (!swapHourData) {
+    swapHourData = {
+      id: event.params.meme.toString() + "-" + hourIndex,
+      token_id: event.params.meme,
+      timestamp: hourStartTimestamp,
+      marketPrice: event.params.marketPrice,
+      floorPrice: event.params.floorPrice,
+      hourlyVolume: event.params.amountIn,
+    };
+    context.SwapHourData.set(swapHourData);
+  } else {
+    const existingSwapHourData: SwapHourDataEntity = {
+      ...swapHourData,
+      marketPrice: event.params.marketPrice,
+      floorPrice: event.params.floorPrice,
+      hourlyVolume: swapHourData.hourlyVolume + event.params.amountIn,
+    };
+    context.SwapHourData.set(existingSwapHourData);
+  }
+
+  let dayIndex = event.blockTimestamp / 86400;
+  let dayStartTimestamp = dayIndex * 86400;
+  let swapDayData = context.SwapDayData.get(
+    event.params.meme.toString() + "-" + dayIndex
+  );
+  if (!swapDayData) {
+    swapDayData = {
+      id: event.params.meme.toString() + "-" + dayIndex,
+      token_id: event.params.meme,
+      timestamp: dayStartTimestamp,
+      marketPrice: event.params.marketPrice,
+      floorPrice: event.params.floorPrice,
+      dailyVolume: event.params.amountIn,
+    };
+    context.SwapDayData.set(swapDayData);
+  } else {
+    const existingSwapDayData: SwapDayDataEntity = {
+      ...swapDayData,
+      marketPrice: event.params.marketPrice,
+      floorPrice: event.params.floorPrice,
+      dailyVolume: swapDayData.dailyVolume + event.params.amountIn,
+    };
+    context.SwapDayData.set(existingSwapDayData);
+  }
+});
