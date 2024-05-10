@@ -1,21 +1,9 @@
 [
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "_memeFactory",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_base",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_treasury",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "_memeFactory", "type": "address" },
+      { "internalType": "address", "name": "_base", "type": "address" },
+      { "internalType": "address", "name": "_treasury", "type": "address" }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
@@ -25,36 +13,20 @@
     "name": "WaveFrontFactory__InsufficientAmountIn",
     "type": "error"
   },
-  {
-    "inputs": [],
-    "name": "WaveFrontFactory__InvalidAddress",
-    "type": "error"
-  },
+  { "inputs": [], "name": "WaveFrontFactory__InvalidAddress", "type": "error" },
   {
     "inputs": [],
     "name": "WaveFrontFactory__NameLimitExceeded",
     "type": "error"
   },
-  {
-    "inputs": [],
-    "name": "WaveFrontFactory__NameRequired",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "WaveFrontFactory__SymbolExists",
-    "type": "error"
-  },
+  { "inputs": [], "name": "WaveFrontFactory__NameRequired", "type": "error" },
+  { "inputs": [], "name": "WaveFrontFactory__SymbolExists", "type": "error" },
   {
     "inputs": [],
     "name": "WaveFrontFactory__SymbolLimitExceeded",
     "type": "error"
   },
-  {
-    "inputs": [],
-    "name": "WaveFrontFactory__SymbolRequired",
-    "type": "error"
-  },
+  { "inputs": [], "name": "WaveFrontFactory__SymbolRequired", "type": "error" },
   {
     "anonymous": false,
     "inputs": [
@@ -79,14 +51,38 @@
     "inputs": [
       {
         "indexed": false,
-        "internalType": "uint256",
-        "name": "index",
-        "type": "uint256"
+        "internalType": "address",
+        "name": "meme",
+        "type": "address"
       },
       {
         "indexed": false,
         "internalType": "address",
-        "name": "meme",
+        "name": "preMeme",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "symbol",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "uri",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "account",
         "type": "address"
       }
     ],
@@ -122,168 +118,76 @@
   {
     "inputs": [],
     "name": "NAME_MAX_LENGTH",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "SYMBOL_MAX_LENGTH",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "base",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      {
-        "internalType": "string",
-        "name": "name",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "symbol",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "uri",
-        "type": "string"
-      },
-      {
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amountIn",
-        "type": "uint256"
-      }
+      { "internalType": "string", "name": "name", "type": "string" },
+      { "internalType": "string", "name": "symbol", "type": "string" },
+      { "internalType": "string", "name": "uri", "type": "string" },
+      { "internalType": "address", "name": "account", "type": "address" },
+      { "internalType": "uint256", "name": "amountIn", "type": "uint256" }
     ],
     "name": "createMeme",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "index",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "name": "index_Meme",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "memeFactory",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "name": "meme_Index",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "minAmountIn",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "owner",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
   },
@@ -296,11 +200,7 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_minAmountIn",
-        "type": "uint256"
-      }
+      { "internalType": "uint256", "name": "_minAmountIn", "type": "uint256" }
     ],
     "name": "setMinAmountIn",
     "outputs": [],
@@ -309,11 +209,7 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "_treasury",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "_treasury", "type": "address" }
     ],
     "name": "setTreasury",
     "outputs": [],
@@ -321,31 +217,15 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
+    "inputs": [{ "internalType": "string", "name": "", "type": "string" }],
     "name": "symbol_Index",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "newOwner", "type": "address" }
     ],
     "name": "transferOwnership",
     "outputs": [],
@@ -355,13 +235,7 @@
   {
     "inputs": [],
     "name": "treasury",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
   }

@@ -316,6 +316,12 @@
   },
   {
     "anonymous": false,
+    "inputs": [],
+    "name": "Meme__MarketOpened",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
     "inputs": [
       {
         "indexed": true,

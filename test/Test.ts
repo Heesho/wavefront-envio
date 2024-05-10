@@ -2,7 +2,7 @@ import assert from "assert";
 import { 
   TestHelpers,
   EventsSummaryEntity,
-  Meme_ApprovalEntity
+  Meme_Meme__BuyEntity
 } from "generated";
 const { MockDb, Meme, Addresses } = TestHelpers;
 
@@ -11,28 +11,24 @@ import { GLOBAL_EVENTS_SUMMARY_KEY } from "../src/EventHandlers";
 
 const MOCK_EVENTS_SUMMARY_ENTITY: EventsSummaryEntity = {
   id: GLOBAL_EVENTS_SUMMARY_KEY,
-  meme_ApprovalCount: BigInt(0),
-  meme_Meme__BorrowCount: BigInt(0),
-  meme_Meme__BurnCount: BigInt(0),
   meme_Meme__BuyCount: BigInt(0),
   meme_Meme__ClaimCount: BigInt(0),
-  meme_Meme__DonationCount: BigInt(0),
-  meme_Meme__FeesCount: BigInt(0),
+  meme_Meme__MarketOpenedCount: BigInt(0),
   meme_Meme__ProtocolFeeCount: BigInt(0),
   meme_Meme__ProviderFeeCount: BigInt(0),
-  meme_Meme__RepayCount: BigInt(0),
-  meme_Meme__ReserveBurnCount: BigInt(0),
   meme_Meme__SellCount: BigInt(0),
   meme_Meme__StatusFeeCount: BigInt(0),
   meme_Meme__StatusUpdatedCount: BigInt(0),
   meme_TransferCount: BigInt(0),
-  wavefrontFactory_OwnershipTransferredCount: BigInt(0),
-  wavefrontFactory_WaveFrontFactory__MemeCreatedCount: BigInt(0),
-  wavefrontFactory_WaveFrontFactory__MinAmountInUpdatedCount: BigInt(0),
-  wavefrontFactory_WaveFrontFactory__TreasuryUpdatedCount: BigInt(0),
+  preMeme_PreMeme__ContributedCount: BigInt(0),
+  preMeme_PreMeme__RedeemedCount: BigInt(0),
+  waveFrontFactory_WaveFrontFactory__MemeCreatedCount: BigInt(0),
+  waveFrontRouter_WaveFrontRouter__AffiliateSetCount: BigInt(0),
+  waveFrontRouter_WaveFrontRouter__BuyCount: BigInt(0),
+  waveFrontRouter_WaveFrontRouter__SellCount: BigInt(0),
 };
 
-describe("Meme contract Approval event tests", () => {
+describe("Meme contract Meme__Buy event tests", () => {
   // Create mock db
   const mockDbInitial = MockDb.createMockDb();
 
@@ -41,11 +37,12 @@ describe("Meme contract Approval event tests", () => {
     MOCK_EVENTS_SUMMARY_ENTITY
   );
 
-  // Creating mock Meme contract Approval event
-  const mockMemeApprovalEvent = Meme.Approval.createMockEvent({
-    owner: Addresses.defaultAddress,
-    spender: Addresses.defaultAddress,
-    value: 0n,
+  // Creating mock Meme contract Meme__Buy event
+  const mockMemeMeme__BuyEvent = Meme.Meme__Buy.createMockEvent({
+    from: Addresses.defaultAddress,
+    to: Addresses.defaultAddress,
+    amountIn: 0n,
+    amountOut: 0n,
     mockEventData: {
       chainId: 1,
       blockNumber: 0,
@@ -59,30 +56,31 @@ describe("Meme contract Approval event tests", () => {
   });
 
   // Processing the event
-  const mockDbUpdated = Meme.Approval.processEvent({
-    event: mockMemeApprovalEvent,
+  const mockDbUpdated = Meme.Meme__Buy.processEvent({
+    event: mockMemeMeme__BuyEvent,
     mockDb: mockDbFinal,
   });
 
-  it("Meme_ApprovalEntity is created correctly", () => {
+  it("Meme_Meme__BuyEntity is created correctly", () => {
     // Getting the actual entity from the mock database
-    let actualMemeApprovalEntity = mockDbUpdated.entities.Meme_Approval.get(
-      mockMemeApprovalEvent.transactionHash +
-        mockMemeApprovalEvent.logIndex.toString()
+    let actualMemeMeme__BuyEntity = mockDbUpdated.entities.Meme_Meme__Buy.get(
+      mockMemeMeme__BuyEvent.transactionHash +
+        mockMemeMeme__BuyEvent.logIndex.toString()
     );
 
     // Creating the expected entity
-    const expectedMemeApprovalEntity: Meme_ApprovalEntity = {
+    const expectedMemeMeme__BuyEntity: Meme_Meme__BuyEntity = {
       id:
-        mockMemeApprovalEvent.transactionHash +
-        mockMemeApprovalEvent.logIndex.toString(),
-      owner: mockMemeApprovalEvent.params.owner,
-      spender: mockMemeApprovalEvent.params.spender,
-      value: mockMemeApprovalEvent.params.value,
+        mockMemeMeme__BuyEvent.transactionHash +
+        mockMemeMeme__BuyEvent.logIndex.toString(),
+      from: mockMemeMeme__BuyEvent.params.from,
+      to: mockMemeMeme__BuyEvent.params.to,
+      amountIn: mockMemeMeme__BuyEvent.params.amountIn,
+      amountOut: mockMemeMeme__BuyEvent.params.amountOut,
       eventsSummary: "GlobalEventsSummary",
     };
     // Asserting that the entity in the mock database is the same as the expected entity
-    assert.deepEqual(actualMemeApprovalEntity, expectedMemeApprovalEntity, "Actual MemeApprovalEntity should be the same as the expectedMemeApprovalEntity");
+    assert.deepEqual(actualMemeMeme__BuyEntity, expectedMemeMeme__BuyEntity, "Actual MemeMeme__BuyEntity should be the same as the expectedMemeMeme__BuyEntity");
   });
 
   it("EventsSummaryEntity is updated correctly", () => {
@@ -94,9 +92,9 @@ describe("Meme contract Approval event tests", () => {
     // Creating the expected entity
     const expectedEventsSummaryEntity: EventsSummaryEntity = {
       ...MOCK_EVENTS_SUMMARY_ENTITY,
-      meme_ApprovalCount: MOCK_EVENTS_SUMMARY_ENTITY.meme_ApprovalCount + BigInt(1),
+      meme_Meme__BuyCount: MOCK_EVENTS_SUMMARY_ENTITY.meme_Meme__BuyCount + BigInt(1),
     };
     // Asserting that the entity in the mock database is the same as the expected entity
-    assert.deepEqual(actualEventsSummaryEntity, expectedEventsSummaryEntity, "Actual MemeApprovalEntity should be the same as the expectedMemeApprovalEntity");
+    assert.deepEqual(actualEventsSummaryEntity, expectedEventsSummaryEntity, "Actual MemeMeme__BuyEntity should be the same as the expectedMemeMeme__BuyEntity");
   });
 });
