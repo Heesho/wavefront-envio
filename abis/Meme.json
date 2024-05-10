@@ -446,7 +446,13 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "account",
+        "name": "oldAccount",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newAccount",
         "type": "address"
       },
       {

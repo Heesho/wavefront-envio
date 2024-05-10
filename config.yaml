@@ -1,17 +1,17 @@
 name: wavefront
 networks:
-  - id: 84532
+  - id: 421614
     start_block: 0
     contracts:
       - name: WaveFrontFactory
         address:
-          - 0x25a12591e63a4367e5fB3Af66cc4CDDB7F02aDec
+          - 0x1552b0DCAC344fFA9702Dbafa6EfA5ebEFB62A82
         handler: src/EventHandlers.ts
         events:
           - event: WaveFrontFactory__MemeCreated(address meme, address preMeme, string name, string symbol, string uri, address account)
       - name: WaveFrontRouter
         address:
-          - 0x5D1dd559fdA41D45a7e9A3cbF85FdeA0298A892f
+          - 0x158CB676938b57475Da1007E66480E19D99F3c26
         handler: src/EventHandlers.ts
         events:
           - event: WaveFrontRouter__AffiliateSet(address indexed account, address indexed affiliate)
@@ -28,7 +28,7 @@ networks:
           - event: Meme__ProviderFee(address indexed account, uint256 amountBase)
           - event: Meme__Sell(address indexed from, address indexed to, uint256 amountIn, uint256 amountOut)
           - event: Meme__StatusFee(address indexed account, uint256 amountBase)
-          - event: Meme__StatusUpdated(address indexed account, string status)
+          - event: Meme__StatusUpdated(address indexed oldAccount, address indexed newAccount, string status)
           - event: Transfer(address indexed from, address indexed to, uint256 value)
       - name: PreMeme
         address:
