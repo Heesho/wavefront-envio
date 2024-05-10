@@ -58,8 +58,8 @@ enum Action {
 
 type Swap @entity {
   id: Bytes!
-  blockNumber: BigInt!
-  timestamp: BigInt!
+  blockNumber: Int!
+  timestamp: Int!
   account: Account!
   token: Token!
   action: Action!
@@ -74,7 +74,7 @@ type Swap @entity {
 type SwapHourData @entity {
   id: ID!
   token: Token!
-  timestamp: BigInt!
+  timestamp: Int!
   marketPrice: BigInt!
   floorPrice: BigInt!
   hourlyVolume: BigInt!
@@ -83,7 +83,7 @@ type SwapHourData @entity {
 type SwapDayData @entity {
   id: ID!
   token: Token!
-  timestamp: BigInt!
+  timestamp: Int!
   marketPrice: BigInt!
   floorPrice: BigInt!
   dailyVolume: BigInt!
