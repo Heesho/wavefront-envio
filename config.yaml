@@ -1,40 +1,38 @@
 name: wavefront
 networks:
-- id: 84532
-  start_block: 0
-  contracts:
-  - name: WaveFrontFactory
-    address:
-    - 0x218c66c9092DC6025343e3d36B3Cc38ae49a3577
-    handler: src/EventHandlers.ts
-    events:
-    - event: WaveFrontFactory__MemeCreated(address meme, address preMeme, string name, string symbol, string uri, address account)
-  - name: WaveFrontRouter
-    address:
-    - 0x52a7648f60f672B93921504b0A90e3F6Cf8d3EC7
-    handler: src/EventHandlers.ts
-    events:
-    - event: WaveFrontRouter__AffiliateSet(address indexed account, address indexed affiliate)
-    - event: WaveFrontRouter__Buy(address indexed meme, address indexed account, address indexed affiliate, uint256 amountIn, uint256 amountOut)
-    - event: WaveFrontRouter__Sell(address indexed meme, address indexed account, uint256 amountIn, uint256 amountOut)
-  - name: Meme
-    address:
-    - 0xb863a10D5877A524e57DD48E75B81b07C091991b
-    handler: src/EventHandlers.ts
-    events:
-    - event: Meme__Buy(address indexed from, address indexed to, uint256 amountIn, uint256 amountOut)
-    - event: Meme__Claim(address indexed account, uint256 amountBase)
-    - event: Meme__MarketOpened()
-    - event: Meme__ProtocolFee(address indexed account, uint256 amountBase)
-    - event: Meme__ProviderFee(address indexed account, uint256 amountBase)
-    - event: Meme__Sell(address indexed from, address indexed to, uint256 amountIn, uint256 amountOut)
-    - event: Meme__StatusFee(address indexed account, uint256 amountBase)
-    - event: Meme__StatusUpdated(address indexed account, string status)
-    - event: Transfer(address indexed from, address indexed to, uint256 value)
-  - name: PreMeme
-    address:
-    - 0x8D2a58A0367556620245004EcA8b6f653e6d4A4B
-    handler: src/EventHandlers.ts
-    events:
-    - event: PreMeme__Contributed(address indexed meme, address indexed account, uint256 amount)
-    - event: PreMeme__Redeemed(address indexed meme, address indexed account, uint256 amount)
+  - id: 84532
+    start_block: 0
+    contracts:
+      - name: WaveFrontFactory
+        address:
+          - 0x25a12591e63a4367e5fB3Af66cc4CDDB7F02aDec
+        handler: src/EventHandlers.ts
+        events:
+          - event: WaveFrontFactory__MemeCreated(address meme, address preMeme, string name, string symbol, string uri, address account)
+      - name: WaveFrontRouter
+        address:
+          - 0x5D1dd559fdA41D45a7e9A3cbF85FdeA0298A892f
+        handler: src/EventHandlers.ts
+        events:
+          - event: WaveFrontRouter__AffiliateSet(address indexed account, address indexed affiliate)
+          - event: WaveFrontRouter__Buy(address indexed meme, address indexed account, uint256 amountIn, uint256 amountOut, uint256 marketPrice, uint256 floorPrice)
+          - event: WaveFrontRouter__Sell(address indexed meme, address indexed account, uint256 amountIn, uint256 amountOut, uint256 marketPrice, uint256 floorPrice)
+      # - name: Meme
+      #   address:
+      #   handler: src/EventHandlers.ts
+      #   events:
+      #     - event: Meme__Buy(address indexed from, address indexed to, uint256 amountIn, uint256 amountOut)
+      #     - event: Meme__Claim(address indexed account, uint256 amountBase)
+      #     - event: Meme__MarketOpened()
+      #     - event: Meme__ProtocolFee(address indexed account, uint256 amountBase)
+      #     - event: Meme__ProviderFee(address indexed account, uint256 amountBase)
+      #     - event: Meme__Sell(address indexed from, address indexed to, uint256 amountIn, uint256 amountOut)
+      #     - event: Meme__StatusFee(address indexed account, uint256 amountBase)
+      #     - event: Meme__StatusUpdated(address indexed account, string status)
+      #     - event: Transfer(address indexed from, address indexed to, uint256 value)
+      # - name: PreMeme
+      #   address:
+      #   handler: src/EventHandlers.ts
+      #   events:
+      #     - event: PreMeme__Contributed(address indexed meme, address indexed account, uint256 amount)
+      #     - event: PreMeme__Redeemed(address indexed meme, address indexed account, uint256 amount)
